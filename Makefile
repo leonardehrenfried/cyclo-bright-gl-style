@@ -25,7 +25,7 @@ tilemaker: tiles/drammen.osm.pbf icons
 		--config=/srv/config-openmaptiles.json \
 		--process=/srv/process-openmaptiles.lua
 
-	cp -r tiles/icons* tiles/tiles/
+	cp -r sprite* tiles/tiles/
 
 	cp index.html tiles/tiles
 
@@ -36,5 +36,5 @@ tilemaker: tiles/drammen.osm.pbf icons
 
 
 icons:
-	spritezero tiles/icons icons
-	spritezero --retina tiles/icons@2x icons
+	spritezero sprite icons
+	spritezero --retina sprite@2x icons
