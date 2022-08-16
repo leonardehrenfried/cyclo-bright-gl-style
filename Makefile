@@ -29,8 +29,8 @@ tilemaker: tiles/drammen.osm.pbf icons
 
 	cp index.html tiles/tiles
 
-	jinja2 style.json -o tiles/style.temp.json
-	jq '. | .sources.openmaptiles.url="http://localhost:8123/metadata.json" | .sprite="http://localhost:8123/sprite"' tiles/style.temp.json > tiles/tiles/style.json
+	jinja2 style.jinja.json -o style.json
+	jq '. | .sources.openmaptiles.url="http://localhost:8123/metadata.json" | .sprite="http://localhost:8123/sprite"' style.json > tiles/tiles/style.json
 
 	python3 -m http.server 8123 --directory tiles/tiles/
 
