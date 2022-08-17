@@ -1696,7 +1696,11 @@
         ["==", "class", "bicycle_route"],
         ["==", "network", "local"]
       ],
-      "layout": {"line-join": "round", "visibility": "visible"},
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round",
+        "visibility": "visible"
+      },
       "maxzoom": 14,
       "minzoom": 12,
       "paint": {
@@ -1704,7 +1708,8 @@
         "line-width": {
           "base": 1.1,
           "stops": [[7, 1.5], [14, 2]]
-        }
+        },
+        "line-dasharray": [0, 2]
       }
     },
     {
@@ -1717,15 +1722,20 @@
         ["==", "class", "bicycle_route"],
         ["==", "network", "regional"]
       ],
-      "layout": {"line-join": "round", "visibility": "visible"},
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round",
+        "visibility": "visible"
+      },
       "maxzoom": 14,
-      "minzoom": 9,
+      "minzoom": 8,
       "paint": {
         "line-color": "#34978b",
         "line-width": {
           "base": 1.2,
-          "stops": [[7, 1.5], [14, 3]]
-        }
+          "stops": [[8, 1.5], [14, 3]]
+        },
+        "line-dasharray": [0, 2]
       }
     },
     {
