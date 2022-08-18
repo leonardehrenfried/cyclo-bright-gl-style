@@ -2538,7 +2538,7 @@
       "source": "openmaptiles",
       "source-layer": "place",
       "filter": ["==", "class", "village"],
-      "minzoom": 12,
+      "minzoom": 13,
       "layout": {
         "text-field": "{name:latin}\n{name:nonlatin}",
         "text-font": ["Noto Sans Regular"],
@@ -2559,7 +2559,7 @@
       "source": "openmaptiles",
       "source-layer": "place",
       "filter": ["==", "class", "town"],
-      "minzoom": 10,
+      "minzoom": 13,
       "layout": {
         "text-field": "{name:latin}\n{name:nonlatin}",
         "text-font": ["Noto Sans Regular"],
