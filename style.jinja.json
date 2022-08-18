@@ -1687,14 +1687,14 @@
       }
     },
     {
-      "id": "bicycle-route-overlay-local",
+      "id": "bicycle-route-overlay-local-regional",
       "type": "line",
       "source": "openmaptiles",
       "source-layer": "transportation",
       "filter": [
         "all",
         ["==", "class", "bicycle_route"],
-        ["==", "network", "local"]
+        ["in", "network", "local", "regional"]
       ],
       "layout": {
         "line-join": "round",
@@ -1727,7 +1727,7 @@
         "line-cap": "round",
         "visibility": "visible"
       },
-      "maxzoom": 14,
+      "maxzoom": 12,
       "minzoom": 8,
       "paint": {
         "line-color": "#34978b",
