@@ -290,7 +290,7 @@ function way_function(way)
 		if not rel then break end
 		local n = way:FindInRelation("network")
 		if n ~= nil then
-			local network = to_route_network(n)
+			local network ="n"
 			table.insert(networks, network)
 		end
 	end
