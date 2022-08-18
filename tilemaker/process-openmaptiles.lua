@@ -227,16 +227,10 @@ function relation_function(relation)
 		end
 		relation:Attribute("name", relation:Find("name"))
 
-		local networks = {
-			["lcn"] = "local",
-			["rcn"] = "regional",
-			["ncn"] = "national"
-		}
 
-		local network = relation:Find("network")
-		local n = networks[network]
-		if n~=nil then
-			relation:Attribute("network", n)
+		local network = to_route_network(relation:Find("network"))
+		if network~=nil then
+			relation:Attribute("network", network)
 		end
 	end
 end
