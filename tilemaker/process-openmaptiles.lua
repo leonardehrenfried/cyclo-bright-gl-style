@@ -216,7 +216,7 @@ end
 
 function relation_function(relation)
 	if relation:Find("type")=="route" and relation:Find("route")=="bicycle" then
-		relation:Layer("transportation", false)
+		relation:Layer("transportation_name", false)
 		relation:Attribute("class", "bicycle_route")
 		relation:Attribute("ref", relation:Find("ref"))
 
@@ -289,15 +289,24 @@ function way_function(way)
 		local rel = way:NextRelation()
 		if not rel then break end
 		local n = way:FindInRelation("network")
-		if n ~= nil then
-			local network ="n"
-			table.insert(networks, network)
+		local network = to_route_network(n)
+		if network ~= nil then
+			networks[network] = true;
 		end
 	end
 
-		print(networks)
-		way.Layer("transportation")
+	if next(networks) then
+		way:Layer("transportation", false)
 		way:Attribute("class", "bicycle_route")
+
+		if networks["national"] then
+			way:Attribute("network", "national")
+		elseif networks["regional"] then
+			way:Attribute("network", "regional")
+		elseif networks["local"] then
+			way:Attribute("network", "local")
+		end
+	end
 
 	-- Boundaries within relations
 	local admin_level = 11
