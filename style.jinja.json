@@ -417,7 +417,11 @@
         ["==", "class", "bicycle_route"],
         ["==", "network", "national"]
       ],
-      "layout": {"line-join": "round", "visibility": "visible"},
+      "layout": {
+        "line-join": "round",
+        "line-cap": "round",
+        "visibility": "visible"
+      },
       "minzoom": 14,
       "paint": {
         "line-color": "#444dfc",
@@ -1754,7 +1758,7 @@
         "line-color": "#444dfc",
         "line-width": {
           "base": 1.2,
-          "stops": [[7, 1.5], [14, 3]]
+          "stops": [[8, 1.5], [14, 3]]
         }
       }
     },
