@@ -1759,7 +1759,8 @@
         "line-width": {
           "base": 1.2,
           "stops": [[8, 1.5], [14, 3]]
-        }
+        },
+        "line-dasharray": [2,1]
       }
     },
     {
