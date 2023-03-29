@@ -14,3 +14,19 @@ After you've started Maputnik open the editor on `localhost:8000`.
 ```
 maputnik --watch --file style.json
 ```
+## Generating the map
+
+This repo contains a `style.json` for rendering a finished vector tiles.
+
+On top of that it also contains config and scripts to generate vector
+tiles using [tilemaker](https://github.com/systemed/tilemaker).
+
+These are found in the `tilemaker` folder.
+
+There is a convenience Makefile for local development. 
+
+In order to spin up a developement server, run:
+
+```
+make tilemaker
+```
