@@ -19,7 +19,7 @@ tilemaker: tiles/drammen.osm.pbf icons
 		-v $(PWD)/tiles/:/srv:z \
 		--name tilemaker-map \
 		--rm \
-		docker.io/stadtnavi/tilemaker:523fb9b2cfa0d85cd8e0948bf97d02e2040e8144\
+		ghcr.io/leonardehrenfried/tilemaker:latest \
 		/srv/drammen.osm.pbf \
 		--output=/srv/tiles/  \
 		--config=/srv/config-openmaptiles.json \

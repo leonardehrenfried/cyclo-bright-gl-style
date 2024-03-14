@@ -301,10 +301,48 @@ waterwayClasses = Set { "stream", "river", "canal", "drain", "ditch" }
 
 -- Scan relations for use in ways
 
+
+-- Scan relations for use in ways
+
 function relation_scan_function()
 	if Find("type")=="boundary" and Find("boundary")=="administrative" then
 		Accept()
 	end
+	if Find("type")=="route" and Find("route")=="bicycle" then
+		Accept()
+	end
+end
+
+
+function relation_function(relation)
+	if Find("type")=="route" and Find("route")=="bicycle" then
+		Layer("transportation_name", false)
+		Attribute("class", "bicycle_route")
+		Attribute("ref", Find("ref"))
+
+		local ref = Find("ref")
+		if ref~="" then
+			Attribute("ref",ref)
+			AttributeNumeric("ref_length", ref:len())
+		end
+		Attribute("name", Find("name"))
+
+
+		local network = to_route_network(Find("network"))
+		if network~=nil then
+			Attribute("network", network)
+		end
+	end
+end
+
+function to_route_network(tag)
+	local networks = {
+			["lcn"] = "local",
+			["rcn"] = "regional",
+			["ncn"] = "national",
+			["icn"] = "national"
+		}
+	return networks[tag]
 end
 
 function write_to_transportation_layer(minzoom, highway_class, subclass, ramp, service, is_rail, is_road)
@@ -400,6 +438,31 @@ function way_function()
 		if rank then AttributeNumeric("rank", rank) end
 		SetNameAttributes()
 	end
+
+	-- Bicycle routes
+	local networks = {};
+	while true do
+		local rel = NextRelation()
+		if not rel then break end
+		local n = FindInRelation("network")
+		local network = to_route_network(n)
+		if network ~= nil then
+			networks[network] = true;
+		end
+	end
+
+	if next(networks) then
+		Layer("transportation", false)
+		Attribute("class", "bicycle_route")
+
+		if networks["national"] then
+			Attribute("network", "national")
+		elseif networks["regional"] then
+			Attribute("network", "regional")
+		elseif networks["local"] then
+			Attribute("network", "local")
+		end
+  end
 
 	-- Boundaries within relations
 	-- note that we process administrative boundaries as properties on ways, rather than as single relation geometries,
@@ -545,6 +608,16 @@ function way_function()
 				end
 			end
 		end
+
+		local has_cycleway = has_truthy_tag("cycleway")
+							or has_truthy_tag("cycleway:left")
+							or has_truthy_tag("cycleway:right")
+							or has_truthy_tag("cycleway:both")
+							or Holds("bicycle") and Find("bicycle") == "designated"
+
+			if has_cycleway or highway == "cycleway" then
+			AttributeNumeric("cycleway", 1)
+ 		end
 	end
 
 	-- Railways ('transportation' and 'transportation_name')
@@ -603,16 +676,16 @@ function way_function()
 
 	-- 'aerodrome_label'
 	if aeroway=="aerodrome" then
-	 	LayerAsCentroid("aerodrome_label")
-	 	SetNameAttributes()
-	 	Attribute("iata", Find("iata"))
-  		SetEleAttributes()
- 	 	Attribute("icao", Find("icao"))
+		LayerAsCentroid("aerodrome_label")
+		SetNameAttributes()
+		Attribute("iata", Find("iata"))
+			SetEleAttributes()
+		Attribute("icao", Find("icao"))
 
- 	 	local aerodrome = Find(aeroway)
- 	 	local class
- 	 	if aerodromeValues[aerodrome] then class = aerodrome else class = "other" end
- 	 	Attribute("class", class)
+		local aerodrome = Find(aeroway)
+		local class
+		if aerodromeValues[aerodrome] then class = aerodrome else class = "other" end
+		Attribute("class", class)
 	end
 
 	-- Set 'waterway' and associated
@@ -941,6 +1014,10 @@ function split(inputstr, sep) -- https://stackoverflow.com/a/7615129/4288232
 		i = i + 1
 	end
 	return t
+end
+
+function has_truthy_tag(tag)
+	return Holds(tag) and Find(tag)~="no"
 end
 
 -- vim: tabstop=2 shiftwidth=2 noexpandtab
