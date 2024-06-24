@@ -3,13 +3,13 @@ DATE := $(shell date "+%Y%m%d%H%M%S")
 
 .PHONY: ansible tilemaker icons
 
-tiles/norway.osm.pbf:
-	curl --create-dirs --fail https://download.geofabrik.de/europe/norway-latest.osm.pbf -o $@
+tiles/berlin.osm.pbf:
+	curl --create-dirs --fail https://download.geofabrik.de/europe/germany/berlin-latest.osm.pbf -o $@
 
-tiles/drammen.osm.pbf: tiles/norway.osm.pbf
-	osmium extract tiles/norway.osm.pbf --polygon tilemaker/drammen.geojson -o $@ --overwrite
+tiles/kreuzberg.osm.pbf: tiles/berlin.osm.pbf
+	osmium extract tiles/berlin.osm.pbf --polygon tilemaker/berlin.geojson -o $@ --overwrite
 
-tilemaker: tiles/drammen.osm.pbf icons
+tilemaker: tiles/kreuzberg.osm.pbf icons
 	cp tilemaker/* tiles
 	jq '. | .settings.filemetadata.tiles=["http://localhost:8123/{z}/{x}/{y}.pbf"]' tilemaker/config-openmaptiles.json > tiles/temp.json
 	mv tiles/temp.json tiles/config-openmaptiles.json
@@ -20,7 +20,7 @@ tilemaker: tiles/drammen.osm.pbf icons
 		--name tilemaker-map \
 		--rm \
 		ghcr.io/leonardehrenfried/tilemaker:latest \
-		/srv/drammen.osm.pbf \
+		/srv/kreuzberg.osm.pbf \
 		--output=/srv/tiles/  \
 		--config=/srv/config-openmaptiles.json \
 		--process=/srv/process-openmaptiles.lua

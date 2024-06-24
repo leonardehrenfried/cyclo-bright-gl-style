@@ -41,7 +41,7 @@
 		"version": "3.0",
 		"description": "Tile config based on OpenMapTiles schema",
 		"compress": "none",
-    "bounding_box" : [3.2958984, 57.0407298383, 28.95996, 71.773941],
+    "bounding_box" : [13.115643,52.189733,13.807782,52.831616],
 		"filemetadata": {
 			"tilejson": "2.0.0",
 			"scheme": "xyz",
